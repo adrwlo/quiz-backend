@@ -4,6 +4,7 @@ import com.example.quizbackend.entity.User;
 import com.example.quizbackend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,11 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Transactional
+    public User getUserByName(String name) {
+        return userRepository.findByName(name);
+    }
 
     @Transactional
     public User saveUser(User user) {
@@ -36,10 +42,9 @@ public class UserService {
     }
 
     public User updateUser(User user) {
-//        User existingUser = userRepository.findById(user.getId()).orElse(null);
-//        existingUser.setName(user.getName());
-//
-//        return userRepository.save(existingUser);
-        return null;
+        User existingUser = userRepository.findById(user.getId()).orElse(null);
+        existingUser.setName(user.getName());
+
+        return userRepository.save(existingUser);
     }
 }

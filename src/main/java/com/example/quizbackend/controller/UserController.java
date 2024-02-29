@@ -3,6 +3,8 @@ package com.example.quizbackend.controller;
 import com.example.quizbackend.entity.User;
 import com.example.quizbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +26,16 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public User addUser(@RequestBody User user) {
-        return userService.saveUser(user);
+    public ResponseEntity<?> addUser(@RequestBody User user) {
+        User existingUser = userService.getUserByName(user.getName());
+
+        if (existingUser != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("User with the name " + user.getName() + " already exists.");
+        }
+
+        User savedUser = userService.saveUser(user);
+        return ResponseEntity.ok(savedUser);
     }
 
     @PostMapping("/addUsers")
