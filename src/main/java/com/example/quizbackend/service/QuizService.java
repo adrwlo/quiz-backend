@@ -122,12 +122,9 @@ public class QuizService {
     public void deleteQuiz(String title) {
         try {
             List<Quiz> quizzes = quizRepository.findByTitle(title);
-            System.out.println(quizzes);
 
             if (!quizzes.isEmpty()) {
                 int quizId = quizzes.get(0).getId();
-
-                System.out.println(quizId);;
 
                 List<Rating> ratings = ratingRepository.findAllById(Collections.singleton(quizId));
                 ratingRepository.deleteAll(ratings);
