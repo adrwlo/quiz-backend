@@ -1,21 +1,17 @@
 package com.example.quizbackend.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class QuizDataDTO {
-    private String question;
-    private AnswerDTO answerA;
-    private AnswerDTO answerB;
-    private AnswerDTO answerC;
-    private AnswerDTO answerD;
-
-    public QuizDataDTO(String questionText, AnswerDTO answerDTO, Object o, Object o1) {
-    }
-
-    public QuizDataDTO() {
-
-    }
+    private String title;
+    private List<QuizQuestionDTO> quizQuestionDTOs;
 }
