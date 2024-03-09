@@ -70,6 +70,7 @@ public class QuizService {
             }
 
             QuizDataDTO quizDataDTO = new QuizDataDTO();
+            quizDataDTO.setId(quiz.getId());
             quizDataDTO.setTitle(quiz.getTitle());
             quizDataDTO.setQuizQuestionDTOs(quizQuestions);
             quizList.add(quizDataDTO);

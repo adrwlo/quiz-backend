@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuizDataDTO {
+    private Integer id;
     private String title;
     private List<QuizQuestionDTO> quizQuestionDTOs;
 }
