@@ -1,0 +1,131 @@
+docker run --name quiz-mysql -e MYSQL_ROOT_PASSWORD=pass -d -p 3306:3306 mysql:latest
+
+
+CREATE DATABASE quiz_database;
+
+USE quiz_database;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE quizzes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE questions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    quiz_id INT NOT NULL,
+    question_text TEXT NOT NULL,
+    FOREIGN KEY (quiz_id) REFERENCES quizzes(id)
+);
+
+CREATE TABLE answers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    question_id INT NOT NULL,
+    answer_text VARCHAR(255) NOT NULL,
+    is_correct BOOLEAN NOT NULL,
+    FOREIGN KEY (question_id) REFERENCES questions(id)
+);
+
+CREATE TABLE ratings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    quiz_id INT NOT NULL,
+    rating INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (quiz_id) REFERENCES quizzes(id)
+);
+
+INSERT INTO users (name) VALUES
+('Anna'),
+('Bartek'),
+('Cezary'),
+('Dorota'),
+('Eryk');
+
+INSERT INTO quizzes (title) VALUES ('Ogólna Wiedza');
+
+-- Dodanie pytań do tabeli questions dla quizu 'Ogólna Wiedza'
+INSERT INTO questions (quiz_id, question_text) VALUES
+(1, 1, 'Które miasto jest stolicą Francji?'),
+(2, 1, 'Który pierwiastek chemiczny ma symbol ''Fe''?'),
+(3, 1, 'Który kontynent jest najmniejszy pod względem powierzchni?'),
+(4, 1, 'Kto napisał "Romeo i Julia"?'),
+(5, 1, 'Jak nazywa się najwyższa góra na Ziemi?');
+
+
+INSERT INTO answers (question_id, answer_text, is_correct) VALUES
+(1, 'Berlin', FALSE),
+(1, 'Londyn', FALSE),
+(1, 'Paryż', TRUE),
+(1, 'Madryt', FALSE);
+
+-- Pytanie 2: Który pierwiastek chemiczny ma symbol 'Fe'?
+INSERT INTO answers (question_id, answer_text, is_correct) VALUES
+(2, 'Żelazo', TRUE),
+(2, 'Srebro', FALSE),
+(2, 'Miedź', FALSE),
+(2, 'Ołów', FALSE);
+
+-- Pytanie 3: Który kontynent jest najmniejszy pod względem powierzchni?
+INSERT INTO answers (question_id, answer_text, is_correct) VALUES
+(3, 'Europa', FALSE),
+(3, 'Australia', TRUE),
+(3, 'Ameryka Południowa', FALSE),
+(3, 'Afryka', FALSE);
+
+-- Pytanie 4: Kto napisał "Romeo i Julia"?
+INSERT INTO answers (question_id, answer_text, is_correct) VALUES
+(4, 'William Shakespeare', TRUE),
+(4, 'Charles Dickens', FALSE),
+(4, 'Jane Austen', FALSE),
+(4, 'Mark Twain', FALSE);
+
+-- Pytanie 5: Jak nazywa się najwyższa góra na Ziemi?
+INSERT INTO answers (question_id, answer_text, is_correct) VALUES
+(5, 'Mount Everest', TRUE),
+(5, 'K2', FALSE),
+(5, 'Annapurna', FALSE),
+(5, 'Kilimandżaro', FALSE);
+
+-- Dodanie przykładowych ocen dla quizu 1
+INSERT INTO ratings (user_id, quiz_id, rating) VALUES
+(1, 1, 4),
+(2, 1, 3),
+(3, 1, 5),
+(4, 1, 4),
+(5, 1, 2);
+
+select * from users;
+
+select * from quizzes;
+
+select * from questions;
+
+select * from answers;
+
+select * from ratings;
+
+DELETE  FROM questions;
+
+
+
+
+
+
+
+
+select * from questions;
+
+select * from answers;
+
+select * from ratings;
+
+
+
+
+
+
