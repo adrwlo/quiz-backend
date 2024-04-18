@@ -1,16 +1,14 @@
 package com.example.quizbackend.service;
 
-import com.example.quizbackend.entity.Rating;
-import com.example.quizbackend.entity.RatingDTO;
-import com.example.quizbackend.entity.User;
+import com.example.quizbackend.entity.*;
+import com.example.quizbackend.repository.QuizRepository;
 import com.example.quizbackend.repository.RatingRepository;
-import com.example.quizbackend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class RatingService {
@@ -18,21 +16,30 @@ public class RatingService {
     private RatingRepository ratingRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private QuizRepository quizRepository;
 
     @Transactional
-    public List<RatingDTO> getAllRatings() {
-        return ratingRepository.findAll().stream()
-                .map(this::mapToRatingDTO)
-                .collect(Collectors.toList());
+    public List<Rating> getAllRatings() {
+        return ratingRepository.findAll();
     }
 
-    private RatingDTO mapToRatingDTO(Rating rating) {
-        User user = userRepository.findById(rating.getUserId()).orElseThrow();
+    public void addRating(RatingDTO ratingDTO) {
+        Quiz existingQuiz = quizRepository.findById(ratingDTO.getQuizId()).orElse(null);
 
-        RatingDTO ratingDTO = new RatingDTO();
-        ratingDTO.setName(user.getName());
-        ratingDTO.setRating(rating.getRating());
-        return ratingDTO;
+        if (existingQuiz != null) {
+            try {
+                Rating rating = new Rating();
+                rating.setQuizId(ratingDTO.getQuizId());
+                rating.setMaxPoints(ratingDTO.getQuizId());
+                rating.setRating(ratingDTO.getRating());
+                rating.setDateTime(LocalDateTime.now());
+
+                ratingRepository.save(rating);
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Error adding rating: " + e.getMessage(), e);
+            }
+        } else {
+            throw new IllegalArgumentException("Quiz with ID " + ratingDTO.getQuizId() + " does not exist.");
+        }
     }
 }
