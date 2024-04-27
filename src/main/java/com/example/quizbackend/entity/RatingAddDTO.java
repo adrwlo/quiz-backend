@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RatingDTO {
+public class RatingAddDTO {
     private int id;
     private int quizId;
     private String quizTitle;

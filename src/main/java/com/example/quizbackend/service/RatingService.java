@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,8 +20,27 @@ public class RatingService {
     private QuizRepository quizRepository;
 
     @Transactional
-    public List<Rating> getAllRatings() {
-        return ratingRepository.findAll();
+    public List<RatingDTO> getAllRatings() {
+        List<RatingDTO> ratingDTOList = new ArrayList<>();
+        List<Rating> ratings = ratingRepository.findAll();
+
+        for (Rating rating : ratings) {
+            RatingDTO ratingDTO = new RatingDTO();
+            ratingDTO.setId(rating.getId());
+            ratingDTO.setQuizId(rating.getQuizId());
+            ratingDTO.setMaxPoints(rating.getMaxPoints());
+            ratingDTO.setRating(rating.getRating());
+            ratingDTO.setDateTime(rating.getDateTime());
+
+            Quiz quiz = quizRepository.findById(rating.getQuizId()).orElse(null);
+            if (quiz != null) {
+                ratingDTO.setQuizTitle(quiz.getTitle());
+            }
+
+            ratingDTOList.add(ratingDTO);
+        }
+
+        return ratingDTOList;
     }
 
     public void addRating(RatingDTO ratingDTO) {

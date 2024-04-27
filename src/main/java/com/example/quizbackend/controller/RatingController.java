@@ -16,7 +16,7 @@ public class RatingController {
     @Autowired
     private RatingService ratingService;
     @GetMapping("/getRatings")
-    public List<Rating> getRatings() {
+    public List<RatingDTO> getRatings() {
         return ratingService.getAllRatings();
     }
 
