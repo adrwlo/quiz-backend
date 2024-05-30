@@ -15,13 +15,13 @@ public class QuizController {
     @Autowired
     private QuizService quizService;
 
-    @GetMapping("/getQuizzes")
+    @GetMapping("/quizzes")
     public ResponseEntity<List<QuizDataDTO>> getAllQuizzesWithQuestionsAndAnswers() {
         List<QuizDataDTO> quizzes = quizService.getAllQuizzes();
         return ResponseEntity.ok(quizzes);
     }
 
-    @PostMapping("/addQuiz")
+    @PostMapping("/quiz")
     public ResponseEntity<String> addQuiz(@RequestBody QuizDataDTO quizDataDTO) {
         try {
             quizService.addQuiz(quizDataDTO);
@@ -33,7 +33,7 @@ public class QuizController {
         }
     }
 
-    @DeleteMapping("deleteQuiz/{title}")
+    @DeleteMapping("delete/{title}")
     public Void deleteQuiz(@PathVariable String title) {
         quizService.deleteQuiz(title);
         return null;
