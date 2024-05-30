@@ -15,12 +15,12 @@ import java.util.List;
 public class RatingController {
     @Autowired
     private RatingService ratingService;
-    @GetMapping("/getRatings")
+    @GetMapping("/ratings")
     public List<RatingDTO> getRatings() {
         return ratingService.getAllRatings();
     }
 
-    @PostMapping("/addRating")
+    @PostMapping("/rating")
     public ResponseEntity<String> addRating(@RequestBody RatingDTO ratingDTO) {
         try {
             ratingService.addRating(ratingDTO);
