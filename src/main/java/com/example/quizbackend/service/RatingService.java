@@ -50,10 +50,10 @@ public class RatingService {
             try {
                 Rating rating = new Rating();
                 rating.setQuizId(ratingDTO.getQuizId());
-                rating.setMaxPoints(ratingDTO.getQuizId());
+                rating.setMaxPoints(ratingDTO.getMaxPoints());
                 rating.setRating(ratingDTO.getRating());
                 rating.setDateTime(LocalDateTime.now());
-
+                System.out.println(ratingDTO);
                 ratingRepository.save(rating);
             } catch (Exception e) {
                 throw new IllegalArgumentException("Error adding rating: " + e.getMessage(), e);
